@@ -1,0 +1,93 @@
+site_name: Metropy
+site_description: A Railway Oriented Programming library for Python
+site_author: Francis
+repo_url: https://github.com/francis/metropy-rop
+repo_name: metropy-rop
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+  - gen-files
+  - section-index
+  - literate-nav
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            heading_level: 2
+            members_order: source
+            docstring_style: google
+            show_if_no_docstring: false
+            filters: ["!^_"]
+            merge_init_into_class: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Basic Concepts: getting-started/concepts.md
+  - User Guide:
+    - Result Type: user-guide/result.md
+    - Railway Decorators: user-guide/decorators.md
+    - Function Composition: user-guide/composition.md
+    - Error Handling: user-guide/error-handling.md
+    - Async Support: user-guide/async.md
+    - Pydantic Integration: user-guide/pydantic.md
+  - Advanced Topics:
+    - Custom Error Types: advanced/custom-errors.md
+    - Parallel Validation: advanced/parallel-validation.md
+    - Debugging: advanced/debugging.md
+  - API Reference:
+    - Core: api/core.md
+    - Decorators: api/decorators.md
+    - Utilities: api/utilities.md
+    - Pydantic: api/pydantic.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md 

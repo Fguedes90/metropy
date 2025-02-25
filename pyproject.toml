@@ -1,0 +1,47 @@
+[project]
+name = "metropy-rop"
+version = "0.1.0"
+description = "A Railway Oriented Programming library for Python"
+authors = [
+    {name = "Francis", email = "your.email@example.com"},
+]
+dependencies = [
+    "typing-extensions>=4.7.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/metropy"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.5.1",
+    "ruff>=0.1.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings>=0.24.0",
+    "mkdocstrings-python>=1.7.0",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.0",
+    "mkdocs-section-index>=0.3.8",
+]
+
+[tool.mkdocs]
+site_name = "Metropy"
+site_description = "A Railway Oriented Programming library for Python"
+site_author = "Francis"
+repo_url = "https://github.com/francis/metropy-rop"
+repo_name = "metropy-rop" 
