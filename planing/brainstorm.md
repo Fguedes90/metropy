@@ -179,6 +179,7 @@ class Result(Generic[T, E]):
         self._success = success
         self._value = value
 
+
     @classmethod
     def success(cls, value: T) -> 'Result[T, E]':
         return cls(True, value)
@@ -373,6 +374,7 @@ class Result(Generic[T, E]):
         return self._value if self._is_success else default
 ```
 
+
 **Vantagem**: Elimina checks manuais de `try/except` e unifica o fluxo de erro[^4][^13].
 
 ---
@@ -380,6 +382,7 @@ class Result(Generic[T, E]):
 ### 1.2 Operador de Composição Monádica (`bind`)
 
 **Mecanismo central** para encadear funções que retornam `Result`, seguindo o padrão monádico[^4][^8]:
+
 
 ```python
 def bind(func: Callable[[T], Result[T, E]]) -> Callable[[Result[T, E]], Result[T, E]]:
@@ -393,6 +396,7 @@ process_data = bind(lambda x: Result.success(x * 2))
 
 pipeline = validate_data | process_data  # Encadeamento via operador |
 result = pipeline(Result.success(10))   # Result.success(20)
+
 ```
 
 **Caso de erro**: `pipeline(Result.failure("Erro inicial"))` propaga a falha sem processamento adicional[^1][^12].
@@ -402,6 +406,7 @@ result = pipeline(Result.success(10))   # Result.success(20)
 ### 1.3 Decorador para Conversão Automática de Exceções
 
 **Transforma exceções em falhas estruturadas**, seguindo o exemplo de `pyrop`[^4]:
+
 
 ```python
 from functools import wraps
@@ -421,6 +426,7 @@ def railway(*error_types: Type[Exception]):
 @railway(ValueError, TypeError)
 def parse_input(data: str) -> int:
     return int(data)
+
 ```
 
 **Saída**: `parse_input("12a")` → `Result.failure(ValueError)`[^4][^13].
@@ -430,6 +436,7 @@ def parse_input(data: str) -> int:
 ### 1.4 Utilitários de Transformação (`map`, `map_error`)
 
 **Manipulação de valores/erros sem quebrar o fluxo**, essencial para pipelines complexos[^5][^12]:
+
 
 ```python
 def map(func: Callable[[T], U]) -> Callable[[Result[T, E]], Result[U, E]]:
@@ -447,6 +454,7 @@ to_upper = map(str.upper)
 log_error = map_error(lambda e: f"ERRO: {e}")
 
 result = (Result.success("texto") | to_upper | log_error)  # Result.success("TEXTO")
+
 ```
 
 ---
@@ -456,6 +464,7 @@ result = (Result.success("texto") | to_upper | log_error)  # Result.success("TEX
 ### 2.1 Combinação de Resultados Paralelos (`all_successful`)
 
 **Agrega múltiplos resultados** para validações complexas, inspirado em `dry-monads`[^3]:
+
 
 ```python
 from typing import Iterable
@@ -470,6 +479,7 @@ def all_successful(results: Iterable[Result[T, E]]) -> Result[tuple[T, ...], lis
 # Uso:
 results = [Result.success(1), Result.failure("Erro1"), Result.success(3)]
 all_successful(results)  # Result.failure(["Erro1"])
+
 ```
 
 ---
@@ -477,6 +487,7 @@ all_successful(results)  # Result.failure(["Erro1"])
 ### 2.2 Recuperação de Falhas (`recover`)
 
 **Alternativas para cenários de erro**, útil em retries ou fallbacks[^5][^12]:
+
 
 ```python
 def recover(func: Callable[[E], T]) -> Callable[[Result[T, E]], Result[T, E]]:
@@ -487,6 +498,7 @@ def recover(func: Callable[[E], T]) -> Callable[[Result[T, E]], Result[T, E]]:
 # Uso:
 fallback = recover(lambda e: f"Valor padrão devido a {e}")
 Result.failure("Timeout") | fallback  # Result.success("Valor padrão devido a Timeout")
+
 ```
 
 ---
@@ -494,6 +506,7 @@ Result.failure("Timeout") | fallback  # Result.success("Valor padrão devido a T
 ### 2.3 Suporte a Funções Assíncronas
 
 **Extensão para corrotinas** usando `async/await`, seguindo `pyrop`[^4]:
+
 
 ```python
 from asyncio import iscoroutinefunction
@@ -514,6 +527,7 @@ def async_railway(*error_types: Type[Exception]):
 async def fetch_data(url: str) -> str:
     # Simulação de chamada assíncrona
     return "dados"
+
 ```
 
 ---
@@ -522,11 +536,13 @@ async def fetch_data(url: str) -> str:
 
 - **Pipeline Declarativa**: Combinar operadores via `|` para legibilidade:
 
+
 ```python
 (Result.success(dados)
  | validar_formato
  | transformar_dados
  | persistir)
+
 ```
 
 - **Tipagem Estrita**: Usar `TypeVar` e `Generic` para segurança em operações encadeadas[^4][^12].

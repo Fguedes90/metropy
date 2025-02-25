@@ -185,5 +185,6 @@ line-ending = "auto"
 site_name = "Metropy"
 site_description = "A Railway Oriented Programming library for Python"
 site_author = "Francis"
-repo_url = "https://github.com/francis/metropy-rop"
+repo_url = "https://github.com/fguedes90/metropy-rop"
 repo_name = "metropy-rop"
+

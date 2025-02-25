@@ -7,6 +7,7 @@ Branch: `feat/initial-setup`
   - [x] Configurar pyproject.toml e dependências
   - [x] Configurar UV como gerenciador de pacotes
   - [x] Criar README inicial com visão geral
+
 → Primeiro merge na main
 
 Branch: `feat/quality-tools`
@@ -15,6 +16,7 @@ Branch: `feat/quality-tools`
   - [x] Configurar pytest para testes
   - [x] Configurar pre-commit hooks
   - [x] Configurar mypy para checagem de tipos
+
 → Merge na main
 
 Branch: `feat/ci-cd-pipeline`
@@ -24,6 +26,7 @@ Branch: `feat/ci-cd-pipeline`
   - [x] Configurar publicação automática no PyPI
   - [x] Configurar Dependabot
   - [x] Configurar CodeQL para análise de segurança
+
 → Merge na main
 
 Branch: `feat/initial-docs`
