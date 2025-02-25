@@ -44,9 +44,9 @@ markdown_extensions:
       alternate_style: true
   - tables
   - footnotes
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji
 
 plugins:
   - search
@@ -90,4 +90,4 @@ nav:
     - Utilities: api/utilities.md
     - Pydantic: api/pydantic.md
   - Contributing: contributing.md
-  - Changelog: changelog.md 
+  - Changelog: changelog.md

@@ -7,6 +7,16 @@ Branch: `feat/initial-setup`
   - [x] Configurar pyproject.toml e dependências
   - [x] Configurar UV como gerenciador de pacotes
   - [x] Criar README inicial com visão geral
+
+→ Primeiro merge na main
+
+Branch: `feat/quality-tools`
+- [x] Configurar ferramentas de qualidade
+  - [x] Configurar Ruff para linting e formatação
+  - [x] Configurar pytest para testes
+  - [x] Configurar pre-commit hooks
+  - [x] Configurar mypy para checagem de tipos
+
 → Primeiro merge na main
 
 Branch: `feat/quality-tools`
@@ -15,6 +25,7 @@ Branch: `feat/quality-tools`
   - [ ] Configurar pytest para testes
   - [ ] Configurar pre-commit hooks
   - [ ] Configurar mypy para checagem de tipos
+
 → Merge na main
 
 Branch: `feat/ci-cd-pipeline`
@@ -157,4 +168,4 @@ Branch: `feat/future-extensions`
   - [ ] Suporte a context managers
   - [ ] Pattern matching (Python 3.10+)
   - [ ] Integração com tipos genéricos
-  - [ ] Suporte a protocolos tipados 
+  - [ ] Suporte a protocolos tipados

@@ -75,4 +75,4 @@ We welcome contributions! Please see our [Contributing Guide](contributing.md) f
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/francis/metropy-rop/blob/main/LICENSE) file for details. 
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/francis/metropy-rop/blob/main/LICENSE) file for details.
