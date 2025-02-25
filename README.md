@@ -65,7 +65,7 @@ from metropy import Result, bind, map
 
 def validate_input(x: int) -> Result[int, str]:
     return (Result.success(x)
-            if x > 0
+        if x > 0
             else Result.failure("Input must be positive"))
 
 def double(x: int) -> int:

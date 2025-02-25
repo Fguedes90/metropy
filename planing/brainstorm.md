@@ -178,15 +178,15 @@ class Result(Generic[T, E]):
     def __init__(self, success: bool, value: T | E):
         self._success = success
         self._value = value
-
+    
     @classmethod
     def success(cls, value: T) -> 'Result[T, E]':
         return cls(True, value)
-
+    
     @classmethod
     def failure(cls, error: E) -> 'Result[T, E]':
         return cls(False, error)
-
+    
     def bind(self, func: Callable[[T], 'Result[T, E]']) -> 'Result[T, E]':
         if self._success:
             return func(self._value)
@@ -346,6 +346,7 @@ Para criar uma biblioteca Python que implemente Railway Oriented Programming (RO
 
 **Estrutura base** que encapsula estados de sucesso/falha, inspirada em `Either` de linguagens funcionais[^4][^12]:
 
+
 ```python
 from dataclasses import dataclass
 from typing import Generic, TypeVar, Callable, Union
@@ -371,7 +372,7 @@ class Result(Generic[T, E]):
 
     def get_or_else(self, default: T) -> T:
         return self._value if self._is_success else default
-```
+
 
 **Vantagem**: Elimina checks manuais de `try/except` e unifica o fluxo de erro[^4][^13].
 
@@ -381,18 +382,19 @@ class Result(Generic[T, E]):
 
 **Mecanismo central** para encadear funções que retornam `Result`, seguindo o padrão monádico[^4][^8]:
 
-```python
-def bind(func: Callable[[T], Result[T, E]]) -> Callable[[Result[T, E]], Result[T, E]]:
-    def wrapper(result: Result[T, E]) -> Result[T, E]:
-        return func(result._value) if result.is_success() else result
-    return wrapper
 
-# Uso:
-validate_data = bind(lambda x: Result.success(x) if x else Result.failure("Dados inválidos"))
-process_data = bind(lambda x: Result.success(x * 2))
+def bind(func: Callable[[T], Result[T, E]]) -> Callable[[Result[T, E]], Result[T, E]]:  
+    def wrapper(result: Result[T, E]) -> Result[T, E]:  
+        return func(result._value) if result.is_success() else result  
+    return wrapper  
 
-pipeline = validate_data | process_data  # Encadeamento via operador |
-result = pipeline(Result.success(10))   # Result.success(20)
+# Uso:  
+validate_data = bind(lambda x: Result.success(x) if x else Result.failure("Dados inválidos"))  
+process_data = bind(lambda x: Result.success(x * 2))  
+
+pipeline = validate_data | process_data  # Encadeamento via operador |  
+result = pipeline(Result.success(10))   # Result.success(20)  
+
 ```
 
 **Caso de erro**: `pipeline(Result.failure("Erro inicial"))` propaga a falha sem processamento adicional[^1][^12].
@@ -403,24 +405,26 @@ result = pipeline(Result.success(10))   # Result.success(20)
 
 **Transforma exceções em falhas estruturadas**, seguindo o exemplo de `pyrop`[^4]:
 
-```python
-from functools import wraps
-from typing import Type
 
-def railway(*error_types: Type[Exception]):
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs) -> Result[T, Exception]:
-            try:
-                return Result.success(func(*args, **kwargs))
-            except error_types as e:
-                return Result.failure(e)
-        return wrapper
-    return decorator
+```python  
+from functools import wraps  
+from typing import Type  
 
-@railway(ValueError, TypeError)
-def parse_input(data: str) -> int:
-    return int(data)
+def railway(*error_types: Type[Exception]):  
+    def decorator(func):  
+        @wraps(func)  
+        def wrapper(*args, **kwargs) -> Result[T, Exception]:  
+            try:  
+                return Result.success(func(*args, **kwargs))  
+            except error_types as e:  
+                return Result.failure(e)  
+        return wrapper  
+    return decorator  
+
+@railway(ValueError, TypeError)  
+def parse_input(data: str) -> int:  
+    return int(data)  
+
 ```
 
 **Saída**: `parse_input("12a")` → `Result.failure(ValueError)`[^4][^13].
@@ -431,22 +435,21 @@ def parse_input(data: str) -> int:
 
 **Manipulação de valores/erros sem quebrar o fluxo**, essencial para pipelines complexos[^5][^12]:
 
-```python
-def map(func: Callable[[T], U]) -> Callable[[Result[T, E]], Result[U, E]]:
-    def wrapper(result: Result[T, E]) -> Result[U, E]:
-        return Result.success(func(result._value)) if result.is_success() else result
-    return wrapper
+```python  
+def map(func: Callable[[T], U]) -> Callable[[Result[T, E]], Result[U, E]]:  
+    def wrapper(result: Result[T, E]) -> Result[U, E]:  
+        return Result.success(func(result._value)) if result.is_success() else result  
+    return wrapper  
 
-def map_error(func: Callable[[E], F]) -> Callable[[Result[T, E]], Result[T, F]]:
-    def wrapper(result: Result[T, E]) -> Result[T, F]:
-        return Result.failure(func(result._value)) if not result.is_success() else result
-    return wrapper
+def map_error(func: Callable[[E], F]) -> Callable[[Result[T, E]], Result[T, F]]:  
+    def wrapper(result: Result[T, E]) -> Result[T, F]:  
+        return Result.failure(func(result._value)) if not result.is_success() else result  
+    return wrapper  
 
-# Uso:
-to_upper = map(str.upper)
-log_error = map_error(lambda e: f"ERRO: {e}")
+to_upper = map(str.upper)  
+log_error = map_error(lambda e: f"ERRO: {e}")  
 
-result = (Result.success("texto") | to_upper | log_error)  # Result.success("TEXTO")
+result = (Result.success("texto") | to_upper | log_error)  # Result.success("TEXTO")  
 ```
 
 ---
@@ -457,19 +460,21 @@ result = (Result.success("texto") | to_upper | log_error)  # Result.success("TEX
 
 **Agrega múltiplos resultados** para validações complexas, inspirado em `dry-monads`[^3]:
 
-```python
-from typing import Iterable
 
-def all_successful(results: Iterable[Result[T, E]]) -> Result[tuple[T, ...], list[E]]:
-    successes = []
-    errors = []
-    for r in results:
-        (successes if r.is_success() else errors).append(r._value)
-    return Result.success(tuple(successes)) if not errors else Result.failure(errors)
+```python  
+from typing import Iterable  
 
-# Uso:
-results = [Result.success(1), Result.failure("Erro1"), Result.success(3)]
-all_successful(results)  # Result.failure(["Erro1"])
+def all_successful(results: Iterable[Result[T, E]]) -> Result[tuple[T, ...], list[E]]:  
+    successes = []  
+    errors = []  
+    for r in results:  
+        (successes if r.is_success() else errors).append(r._value)  
+    return Result.success(tuple(successes)) if not errors else Result.failure(errors)  
+
+# Uso:  
+results = [Result.success(1), Result.failure("Erro1"), Result.success(3)]  
+all_successful(results)  # Result.failure(["Erro1"])  
+
 ```
 
 ---
@@ -478,15 +483,17 @@ all_successful(results)  # Result.failure(["Erro1"])
 
 **Alternativas para cenários de erro**, útil em retries ou fallbacks[^5][^12]:
 
-```python
-def recover(func: Callable[[E], T]) -> Callable[[Result[T, E]], Result[T, E]]:
-    def wrapper(result: Result[T, E]) -> Result[T, E]:
-        return Result.success(func(result._value)) if not result.is_success() else result
-    return wrapper
 
-# Uso:
-fallback = recover(lambda e: f"Valor padrão devido a {e}")
-Result.failure("Timeout") | fallback  # Result.success("Valor padrão devido a Timeout")
+```python  
+def recover(func: Callable[[E], T]) -> Callable[[Result[T, E]], Result[T, E]]:  
+    def wrapper(result: Result[T, E]) -> Result[T, E]:  
+        return Result.success(func(result._value)) if not result.is_success() else result  
+    return wrapper  
+
+# Uso:  
+fallback = recover(lambda e: f"Valor padrão devido a {e}")  
+Result.failure("Timeout") | fallback  # Result.success("Valor padrão devido a Timeout")  
+
 ```
 
 ---
@@ -495,25 +502,26 @@ Result.failure("Timeout") | fallback  # Result.success("Valor padrão devido a T
 
 **Extensão para corrotinas** usando `async/await`, seguindo `pyrop`[^4]:
 
-```python
-from asyncio import iscoroutinefunction
 
-def async_railway(*error_types: Type[Exception]):
-    def decorator(func):
-        @wraps(func)
-        async def wrapper(*args, **kwargs) -> Result[T, Exception]:
-            try:
-                result = await func(*args, **kwargs) if iscoroutinefunction(func) else func(*args, **kwargs)
-                return Result.success(result)
-            except error_types as e:
-                return Result.failure(e)
-        return wrapper
-    return decorator
+from asyncio import iscoroutinefunction  
 
-@async_railway(IOError)
-async def fetch_data(url: str) -> str:
-    # Simulação de chamada assíncrona
-    return "dados"
+def async_railway(*error_types: Type[Exception]):  
+    def decorator(func):  
+        @wraps(func)  
+        async def wrapper(*args, **kwargs) -> Result[T, Exception]:  
+            try:  
+                result = await func(*args, **kwargs) if iscoroutinefunction(func) else func(*args, **kwargs)  
+                return Result.success(result)  
+            except error_types as e:  
+                return Result.failure(e)  
+        return wrapper  
+    return decorator  
+
+@async_railway(IOError)  
+async def fetch_data(url: str) -> str:  
+    # Simulação de chamada assíncrona  
+    return "dados"  
+
 ```
 
 ---
@@ -522,11 +530,13 @@ async def fetch_data(url: str) -> str:
 
 - **Pipeline Declarativa**: Combinar operadores via `|` para legibilidade:
 
-```python
-(Result.success(dados)
- | validar_formato
- | transformar_dados
- | persistir)
+
+```python  
+(Result.success(dados)  
+ | validar_formato  
+ | transformar_dados  
+ | persistir)  
+
 ```
 
 - **Tipagem Estrita**: Usar `TypeVar` e `Generic` para segurança em operações encadeadas[^4][^12].

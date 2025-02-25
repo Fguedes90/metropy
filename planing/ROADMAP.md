@@ -2,25 +2,12 @@
 
 ## Fase 1: Estrutura do Projeto e CI/CD
 Branch: `feat/initial-setup`
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ccc9539 (Setup initial project structure for Metropy ROP library)
 - [x] Setup inicial do projeto
   - [x] Criar estrutura de diretórios (src, tests, docs)
   - [x] Configurar pyproject.toml e dependências
   - [x] Configurar UV como gerenciador de pacotes
   - [x] Criar README inicial com visão geral
-<<<<<<< HEAD
-=======
-- [ ] Setup inicial do projeto
-  - [ ] Criar estrutura de diretórios (src, tests, docs)
-  - [ ] Configurar pyproject.toml e dependências
-  - [ ] Configurar UV como gerenciador de pacotes
-  - [ ] Criar README inicial com visão geral
->>>>>>> 655a85b (Update ROADMAP.md with detailed project phases and branch strategy)
-=======
->>>>>>> ccc9539 (Setup initial project structure for Metropy ROP library)
+
 → Primeiro merge na main
 
 Branch: `feat/quality-tools`
@@ -29,6 +16,16 @@ Branch: `feat/quality-tools`
   - [x] Configurar pytest para testes
   - [x] Configurar pre-commit hooks
   - [x] Configurar mypy para checagem de tipos
+
+→ Primeiro merge na main
+
+Branch: `feat/quality-tools`
+- [ ] Configurar ferramentas de qualidade
+  - [ ] Configurar Ruff para linting e formatação
+  - [ ] Configurar pytest para testes
+  - [ ] Configurar pre-commit hooks
+  - [ ] Configurar mypy para checagem de tipos
+
 → Merge na main
 
 Branch: `feat/ci-cd-pipeline`
