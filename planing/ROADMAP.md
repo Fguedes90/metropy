@@ -17,24 +17,16 @@ Branch: `feat/quality-tools`
   - [x] Configurar pre-commit hooks
   - [x] Configurar mypy para checagem de tipos
 
-→ Primeiro merge na main
-
-Branch: `feat/quality-tools`
-- [ ] Configurar ferramentas de qualidade
-  - [ ] Configurar Ruff para linting e formatação
-  - [ ] Configurar pytest para testes
-  - [ ] Configurar pre-commit hooks
-  - [ ] Configurar mypy para checagem de tipos
-
 → Merge na main
 
 Branch: `feat/ci-cd-pipeline`
-- [ ] Implementar CI/CD
-  - [ ] Configurar GitHub Actions para testes
-  - [ ] Configurar Semantic Release
-  - [ ] Configurar publicação automática no PyPI
-  - [ ] Configurar Dependabot
-  - [ ] Configurar CodeQL para análise de segurança
+- [x] Implementar CI/CD
+  - [x] Configurar GitHub Actions para testes
+  - [x] Configurar Semantic Release
+  - [x] Configurar publicação automática no PyPI
+  - [x] Configurar Dependabot
+  - [x] Configurar CodeQL para análise de segurança
+
 → Merge na main
 
 Branch: `feat/initial-docs`
