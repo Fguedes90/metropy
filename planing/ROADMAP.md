@@ -2,11 +2,11 @@
 
 ## Fase 1: Estrutura do Projeto e CI/CD
 Branch: `feat/initial-setup`
-- [ ] Setup inicial do projeto
-  - [ ] Criar estrutura de diretórios (src, tests, docs)
-  - [ ] Configurar pyproject.toml e dependências
-  - [ ] Configurar UV como gerenciador de pacotes
-  - [ ] Criar README inicial com visão geral
+- [x] Setup inicial do projeto
+  - [x] Criar estrutura de diretórios (src, tests, docs)
+  - [x] Configurar pyproject.toml e dependências
+  - [x] Configurar UV como gerenciador de pacotes
+  - [x] Criar README inicial com visão geral
 → Primeiro merge na main
 
 Branch: `feat/quality-tools`
