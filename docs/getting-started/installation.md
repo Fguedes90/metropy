@@ -108,4 +108,4 @@ print(Result.__version__)
 
 - Follow the [Quick Start](quickstart.md) guide to learn how to use Metropy
 - Read about [Basic Concepts](concepts.md) to understand Railway Oriented Programming
-- Check out the [User Guide](../user-guide/result.md) for detailed documentation 
+- Check out the [User Guide](../user-guide/result.md) for detailed documentation

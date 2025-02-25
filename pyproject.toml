@@ -26,6 +26,9 @@ packages = ["src/metropy"]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",  # For testing async code
+    "pytest-sugar>=1.0.0",     # For better test progress visualization
+    "pytest-xdist>=3.5.0",     # For parallel test execution
     "mypy>=1.5.1",
     "ruff>=0.1.0",
 ]
@@ -39,9 +42,148 @@ docs = [
     "mkdocs-section-index>=0.3.8",
 ]
 
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# For strict mypy
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_any_unimported = true
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = false
+
+[[tool.mypy.overrides]]
+module = [
+    "tests.*",
+]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=metropy --cov-report=term-missing --cov-report=xml --cov-report=html"
+testpaths = [
+    "tests",
+]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test", "Describe"]
+python_functions = ["test_*", "it_*", "they_*"]
+asyncio_mode = "auto"
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "pass",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+indent-width = 4
+
+# Enable Pyflakes, pycodestyle, and import sorting
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP", # pyupgrade
+    "N",  # pep8-naming
+    "YTT", # flake8-2020
+    "S",  # flake8-bandit
+    "DTZ", # flake8-datetimez
+    "T",  # pyupgrade
+    "PT", # flake8-pytest-style
+    "RET", # flake8-return
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+    "TCH", # flake8-type-checking
+    "RUF", # Ruff-specific rules
+]
+
+# Never enforce `E501` (line length violations)
+ignore = ["E501"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]  # Allow assert in tests
+
+[tool.ruff.isort]
+known-first-party = ["metropy"]
+force-single-line = false
+lines-between-types = 1
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
 [tool.mkdocs]
 site_name = "Metropy"
 site_description = "A Railway Oriented Programming library for Python"
 site_author = "Francis"
 repo_url = "https://github.com/francis/metropy-rop"
-repo_name = "metropy-rop" 
+repo_name = "metropy-rop"

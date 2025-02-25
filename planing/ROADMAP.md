@@ -10,11 +10,11 @@ Branch: `feat/initial-setup`
 → Primeiro merge na main
 
 Branch: `feat/quality-tools`
-- [ ] Configurar ferramentas de qualidade
-  - [ ] Configurar Ruff para linting e formatação
-  - [ ] Configurar pytest para testes
-  - [ ] Configurar pre-commit hooks
-  - [ ] Configurar mypy para checagem de tipos
+- [x] Configurar ferramentas de qualidade
+  - [x] Configurar Ruff para linting e formatação
+  - [x] Configurar pytest para testes
+  - [x] Configurar pre-commit hooks
+  - [x] Configurar mypy para checagem de tipos
 → Merge na main
 
 Branch: `feat/ci-cd-pipeline`
@@ -157,4 +157,4 @@ Branch: `feat/future-extensions`
   - [ ] Suporte a context managers
   - [ ] Pattern matching (Python 3.10+)
   - [ ] Integração com tipos genéricos
-  - [ ] Suporte a protocolos tipados 
+  - [ ] Suporte a protocolos tipados

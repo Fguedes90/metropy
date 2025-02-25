@@ -102,4 +102,4 @@
 - [ ] Criar PR inicial com toda a configuração
 - [ ] Revisar e mergear na main
 - [ ] Verificar se o primeiro deploy acontece corretamente
-- [ ] Compartilhar documentação com a equipe 
+- [ ] Compartilhar documentação com a equipe
